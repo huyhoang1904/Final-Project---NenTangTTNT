@@ -1,0 +1,17 @@
+# Bỏ qua file chứa biến bảo mật (API Key, Database URL)
+.env
+
+# Bỏ qua môi trường ảo
+venv/
+env/
+myenv/
+
+# Bỏ qua bộ nhớ tạm của Python và cấu hình IDE
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+
+# Bỏ qua lịch sử Git
+.git/
+.github/

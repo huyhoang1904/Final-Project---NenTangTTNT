@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sentiment Analysis</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        textarea { width: 100%; height: 100px; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; resize: none; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
+        button:hover { background-color: #0056b3; }
+        .result { margin-top: 20px; font-weight: bold; font-size: 18px; }
+        .loading { color: #888; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Phân Tích Cảm Xúc 🤖</h2>
+    <textarea id="textInput" placeholder="Nhập câu bạn muốn phân tích..."></textarea>
+    <button onclick="analyzeText()">Phân Tích</button>
+    <div id="resultBox" class="result"></div>
+</div>
+
+<script>
+    async function analyzeText() {
+        const text = document.getElementById("textInput").value;
+        const resultBox = document.getElementById("resultBox");
+
+        if (!text.trim()) {
+            resultBox.innerHTML = "<span style='color: red;'>Vui lòng nhập nội dung!</span>";
+            return;
+        }
+
+        resultBox.innerHTML = "<span class='loading'>Đang phân tích...</span>";
+
+        try {
+            const response = await fetch("/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: text }) // Đảm bảo key 'text' khớp với Pydantic model của bạn
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Tùy chỉnh màu sắc dựa trên kết quả (Positive, Negative, Neutral)
+                let color = "black";
+                if (data.sentiment === "Positive") color = "green";
+                else if (data.sentiment === "Negative") color = "red";
+                else if (data.sentiment === "Neutral") color = "orange";
+
+                resultBox.innerHTML = `Kết quả: <span style="color: ${color};">${data.sentiment}</span>`;
+            } else {
+                resultBox.innerHTML = `<span style='color: red;'>Lỗi: ${data.detail}</span>`;
+            }
+        } catch (error) {
+            resultBox.innerHTML = "<span style='color: red;'>Không thể kết nối đến server!</span>";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Biến bảo mật và môi trường ảo (Tuyệt đối không đẩy lên Git)
+.env
+.venv/
+venv/
+env/
+
+# Bộ nhớ tạm và file biên dịch của Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Thư mục cấu hình của IDE PyCharm
+.idea/
+
+# File rác của hệ điều hành
+.DS_Store
+Thumbs.db
