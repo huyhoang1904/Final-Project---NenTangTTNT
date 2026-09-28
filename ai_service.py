@@ -6,9 +6,6 @@ client = genai.Client()
 
 
 def analyze_sentiment_logic(text: str) -> str:
-    """
-    Sử dụng Gemini API để phân tích cảm xúc văn bản.
-    """
     # Ép AI chỉ trả về đúng 1 trong 3 từ khóa để backend dễ xử lý
     prompt = f"Phân tích cảm xúc của đoạn văn bản sau. Chỉ trả về đúng 1 từ duy nhất trong 3 từ (Positive, Negative, Neutral). Văn bản: '{text}'"
 
